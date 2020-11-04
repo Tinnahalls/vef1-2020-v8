@@ -25,13 +25,23 @@ function encode(str, n, alphabet = '') {
  * @param {string} alphabet Stafróf sem afkóða á út frá
  * @returns {string} Upprunalegi strengurinn hliðraður um n til vinstri
  */
-function decode(str, n, alphabet = '') {
-  return '';
+
+
+function decode(str, shift, alphabet = '') {
+  // dæmi sem notar „fallaforritun“
+  return str
+    .toLocaleUpperCase()
+    .split('')
+    .map(s => alphabet.indexOf(s) - shift) // hliðruð staðsetning stafs
+    .map(i => i < 0 ? alphabet.length + i : i) // ef i verður neikvætt, förum aftast í stafróf
+    .map(i => alphabet[i])
+    .join('');
 }
 
 const Caesar = (() => {
   // Default stafróf, uppfært þegar slegið inn í "alphabet"
-  let alphabet = 'AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ';
+  let alphabet = '';
+
 
   // Default type, uppfært af radio input
   let type = 'encode';
@@ -39,12 +49,21 @@ const Caesar = (() => {
   // Default hliðrun, uppfært af "shift"
   let shift = 3;
 
+  function doStuff(event) {
+  event.target.value = '';
+
+  }
+
   function init(el) {
-    // Setja event handlera á viðeigandi element
+    this.alphabet = el[0].value;
   }
 
   return {
     init,
+    doStuff,
+    shift,
+    type,
+    alphabet
   };
 })();
 
@@ -53,3 +72,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Caesar.init(ceasarForm);
 });
+document.querySelector('#alphabet')
+  .addEventListener('blur', (event) => {
+    Caesar.alphabet = event.target.value;
+  });
+
+
+document.querySelector('#input')
+  .addEventListener('keyup', (event) => {
+    let str = event.target.value.charAt(event.target.value.length -1);
+    let returnvalue = decode(str, Caesar.shift, Caesar.alphabet);
+    let newString = event.target.value. substring(0,event.target.value.length -1);
+    let joinedString = newString + returnvalue;
+    event.target.value = joinedString;
+  });
+
+  document.querySelector('#shift')
+  .addEventListener('focus', (event) => {
+    Caesar.shift = event.target.value;
+    document.querySelector('.shiftValue').innerHTML = Caesar.shift;
+  });
+
+
+
+
+
+
+

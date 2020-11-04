@@ -11,16 +11,19 @@
       <form class="ceasar" method="get" action="/">
         <div class="input alphabet">
           <label for="alphabet">Stafróf:</label>
-          <input type="text" id="alphabet" name="alphabet" value="AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ">
+          <select id="alphabet" name="alphabet">
+            <option value="AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ"> AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ </option>
+            <option value="ABCDEFGHIJKLMNOPQRSTUVWXYZ"> ABCDEFGHIJKLMNOPQRSTUVWXYZ </option>
+          </select>
         </div>
 
         <div class="radio">
           <label>
-            <input checked type="radio" name="type" value="encode">
+            <input checked type="radio" id="checkedencode" name="type" value="encode">
             <span>Kóða</span>
           </label>
           <label>
-            <input type="radio" name="type" value="decode">
+            <input type="radio" id="checkeddecode" name="type" value="decode">
             <span>Afkóða</span>
           </label>
         </div>
