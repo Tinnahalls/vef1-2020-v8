@@ -26,6 +26,17 @@ function encode(str, n, alphabet = '') {
  * @returns {string} Upprunalegi strengurinn hliðraður um n til vinstri
  */
 
+function encode(str, shift, alphabet = '') {
+  // dæmi sem notar „fallaforritun“
+  return str
+    .toLocaleUpperCase()
+    .split('')
+    .map(s => alphabet.indexOf(s) + shift) // hliðruð staðsetning stafs
+    .map(i => i < 0 ? alphabet.length + i : i) // ef i verður neikvætt, förum aftast í stafróf
+    .map(i => alphabet[i])
+    .join('');
+}
+
 
 function decode(str, shift, alphabet = '') {
   // dæmi sem notar „fallaforritun“
@@ -44,7 +55,7 @@ const Caesar = (() => {
 
 
   // Default type, uppfært af radio input
-  let type = 'encode';
+  let type = '';
 
   // Default hliðrun, uppfært af "shift"
   let shift = 3;
@@ -77,6 +88,15 @@ document.querySelector('#alphabet')
     Caesar.alphabet = event.target.value;
   });
 
+  document.querySelector('#encode')
+  .addEventListener('keyup', (event) => {
+    Caesar.type = event.target.value;
+  });
+
+  document.querySelector('#decode')
+  .addEventListener('keyup', (event) => {
+    Caesar.type = event.target.value;
+  });
 
 document.querySelector('#input')
   .addEventListener('keyup', (event) => {
@@ -92,7 +112,6 @@ document.querySelector('#input')
     Caesar.shift = event.target.value;
     document.querySelector('.shiftValue').innerHTML = Caesar.shift;
   });
-
 
 
 
